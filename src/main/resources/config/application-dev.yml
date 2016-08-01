@@ -1,0 +1,27 @@
+management.security.enabled: false
+security.basic.enabled: false
+
+server:
+    port: 8215
+
+liquibase:
+    context: dev
+
+spring:
+    profiles:
+        active: dev
+    redis:
+        host: localhost
+        port: 6390
+
+metrics:
+    jmx.enabled: true
+    spark:
+        enabled: false
+        host: localhost
+        port: 9999
+    graphite:
+        enabled: false
+        host: localhost
+        port: 2003
+        prefix: bidStore

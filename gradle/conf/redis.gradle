@@ -1,0 +1,6 @@
+dependencies {
+    compile group: 'com.github.kstyrc',         name: 'embedded-redis',     version: embedded_redis_version
+    compile group: 'biz.paluch.redis',          name: 'lettuce',            version: redis_lettuce_version
+    compile group: 'org.springframework.data', name: 'spring-data-keyvalue', version: spring_data_kv_version
+    compile group: 'org.springframework.data',  name: 'spring-data-redis',  version: spring_data_redis_version
+}

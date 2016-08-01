@@ -1,0 +1,8 @@
+{
+  "generator-spring-rest": {
+    "baseName": "watchStore",
+    "packageName": "com.rta.watchstore",
+    "packageNameGenerated": "com.rta.watchstore.generated",
+    "adddocker": "yes"
+  }
+}

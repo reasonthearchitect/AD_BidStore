@@ -57,4 +57,22 @@ class BidRepoSpec extends AbstractItTest {
         then:
         exists == false
     }
+
+    @Test
+    def "get the bids for a list of vins"() {
+
+        setup:
+        this.bidRepo.save([id: "rhys", vin: "avin", amount: new BigDecimal(435)] as Bid);
+        this.bidRepo.save([id: "rhys", vin: "bvin", amount: new BigDecimal(123)] as Bid);
+
+        when:
+        Map<String, Bid> rbid = this.bidRepo.getBids(["avin", "bvin", "cvin"] as List);
+
+        then:
+        rbid.size() == 3;
+        rbid["avin"].amount == 435
+        rbid["bvin"].amount == 123
+        rbid["cvin"].amount == 0
+
+    }
 }

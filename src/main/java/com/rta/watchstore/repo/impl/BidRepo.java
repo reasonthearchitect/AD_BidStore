@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -34,7 +35,27 @@ public class BidRepo implements IBidRepo {
     }
 
     @Override public boolean exists(String vin) {
-        return !this.redisTemplate.opsForHash().entries(vin).isEmpty();
+        return this.redisTemplate.hasKey(vin);
+        //return !this.redisTemplate.opsForHash().entries(vin).isEmpty();
+    }
+
+    @Override public Map<String, Bid> getBids(List<String> vins) {
+        Map<String, Bid> rmap = new HashMap<>(vins.size());
+
+        for (String vin : vins) {
+            Bid abid = new Bid();
+            abid.setVin(vin);
+            if (this.exists(vin)) {
+                Map<Object, Object> valueMap = this.redisTemplate.opsForHash().entries(vin);
+                abid.setId((String)valueMap.get("id"));
+                abid.setAmount(new BigDecimal((String)valueMap.get("amount")));
+            } else {
+                abid.setId("No Bid");
+                abid.setAmount(new BigDecimal(0));
+            }
+            rmap.put(vin, abid);
+        }
+        return rmap;
     }
 }
 

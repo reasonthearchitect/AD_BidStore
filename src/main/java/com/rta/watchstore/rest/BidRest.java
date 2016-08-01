@@ -4,12 +4,14 @@ import com.rta.watchstore.dto.Bid;
 import com.rta.watchstore.repo.IBidRepo;
 import com.rta.watchstore.stream.BidSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/bidstore")
@@ -38,5 +40,12 @@ public class BidRest {
         this.bidRepo.save(bid);
         this.bidSource.send(bid);
         return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(value = "/getbidsforlist",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Bid>> getBids(@RequestBody List<String> vins) {
+        return new ResponseEntity<>(this.bidRepo.getBids(vins), new HttpHeaders(), HttpStatus.OK);
     }
 }

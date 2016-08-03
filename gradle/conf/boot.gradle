@@ -1,10 +1,13 @@
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'spring-boot'
-apply plugin: 'war'
 
-archivesBaseName = 'bidStore'
-description = ''
+
+jar{
+    baseName = 'bidstore'
+    version = '0.0.1-SNAPSHOT'
+    description = ''
+}
 
 defaultTasks 'bootRun'
 

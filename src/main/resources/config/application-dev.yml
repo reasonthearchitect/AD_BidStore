@@ -4,6 +4,7 @@ security.basic.enabled: false
 server:
     port: 8215
 
+
 liquibase:
     context: dev
 

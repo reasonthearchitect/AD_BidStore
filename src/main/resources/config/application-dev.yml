@@ -11,15 +11,6 @@ liquibase:
 spring:
     profiles:
         active: dev
-    spring:
-            profiles:
-                active: prod
-            cloud:
-                stream:
-                    kafka:
-                        binder:
-                            zkNodes: 172.31.55.162
-                            brokers: 172.31.55.162
     redis:
         host: localhost
         port: 6390

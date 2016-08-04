@@ -17,8 +17,8 @@ spring:
             stream:
                 kafka:
                     binder:
-                        zkNodes: 172.31.7.17
-                        brokers: 172.31.7.17
+                        zkNodes: 172.31.55.162
+                        brokers: 172.31.55.162
     
 metrics:
     jmx.enabled: true

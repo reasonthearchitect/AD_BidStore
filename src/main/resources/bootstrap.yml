@@ -1,0 +1,25 @@
+server:
+  port: 8215
+
+---
+spring:
+  profiles:
+    active: dev
+  application:
+    name: bidstore
+  cloud:
+    config:
+      enabled: false
+
+---
+server:
+  port: 8215
+spring:
+  profiles:
+    active: prod
+  application:
+    name: bidstore
+  cloud:
+    config:
+      enabled: true
+      uri: http://config.reasonthearchitect.com

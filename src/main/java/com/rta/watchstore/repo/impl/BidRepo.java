@@ -16,27 +16,26 @@ public class BidRepo implements IBidRepo {
 
     @Autowired RedisTemplate<String, Object> redisTemplate;
 
+    private final static String ID = "id";
+    private final static String AMOUNT = "amount";
 
     @Override public void save(Bid bid){
         final Map< String, Object > properties = new HashMap<>();
-        properties.put( "id", bid.getId() );
-        properties.put( "amount", bid.getAmount() );
+        properties.put( BidRepo.ID, bid.getId() );
+        properties.put( BidRepo.AMOUNT, bid.getAmount() );
         this.redisTemplate.opsForHash().putAll( bid.getVin(), properties);
     }
 
     @Override public Bid getBid(String vin) {
         Bid rbid = new Bid();
         rbid.setVin(vin);
-        rbid.setId((String)this.redisTemplate.opsForHash().get(vin, "id"));
-        rbid.setAmount(new BigDecimal( (String)this.redisTemplate.opsForHash().get(vin, "amount")));
-
-        //Map<Object, Object> rmap = this.redisTemplate.opsForHash().entries(vin);
+        rbid.setId((String)this.redisTemplate.opsForHash().get(vin, BidRepo.ID));
+        rbid.setAmount(new BigDecimal( (String)this.redisTemplate.opsForHash().get(vin, BidRepo.AMOUNT)));
         return rbid;
     }
 
     @Override public boolean exists(String vin) {
         return this.redisTemplate.hasKey(vin);
-        //return !this.redisTemplate.opsForHash().entries(vin).isEmpty();
     }
 
     @Override public Map<String, Bid> getBids(List<String> vins) {
@@ -47,8 +46,8 @@ public class BidRepo implements IBidRepo {
             abid.setVin(vin);
             if (this.exists(vin)) {
                 Map<Object, Object> valueMap = this.redisTemplate.opsForHash().entries(vin);
-                abid.setId((String)valueMap.get("id"));
-                abid.setAmount(new BigDecimal((String)valueMap.get("amount")));
+                abid.setId((String)valueMap.get(BidRepo.ID));
+                abid.setAmount(new BigDecimal((String)valueMap.get(BidRepo.AMOUNT)));
             } else {
                 abid.setId("No Bid");
                 abid.setAmount(new BigDecimal(0));

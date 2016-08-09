@@ -14,10 +14,9 @@ buildscript {
 }
 
 plugins {
-  id "java"
-  id "jacoco"
-  id "org.sonarqube" version "1.2"
-  id "io.spring.dependency-management" version "0.6.0.RELEASE"
+    id "java"
+    id "jacoco"
+    id "org.sonarqube" version "1.2"
 }
 
 apply plugin: "io.spring.dependency-management"
@@ -28,11 +27,22 @@ dependencyManagement {
     }
 }
 
+test {
+    jacoco {
+        excludes += ['**.generated.**']
+    }
+}
+
 sonarqube {
     properties {
-        property "sonar.projectName", "Java :: Bid Store :: SonarQube Scanner for Gradle"
+        property "sonar.projectName", "Bid Store"
+
         property "sonar.projectKey", "org.sonarqube:java-bid-store-gradle"
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+        property "sonar.exclusions", "**/generated/**,**/Application.java"
+        property "sonar.sources", "src/main/java"
+        property "sonar.tests", "src/test/groovy"
+        property "sonar.binaries", "build/classes"
     }
 }
 
